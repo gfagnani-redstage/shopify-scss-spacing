@@ -1,2 +1,4 @@
 # shopify-scss-spacing
-A SCSS file within some spacing tools for storefront.
+A SCSS file with some spacing tools for storefront.
+
+How it's works?
