@@ -1,0 +1,44 @@
+// CONFIG 
+
+$spacings-range : (0,5,10,15,20,25,30,35,40,45,50);
+$grid-breakpoint-has-spacings :($small, $medium, $large-up);
+$main-breakpoint : nth($grid-breakpoint-has-spacings, 1);
+
+// ENDCONFIG
+
+
+@mixin margins-generator($breakpoint) {
+  $spacing-types : (
+    "m": "margin",
+    "p": "padding"
+  );
+  $directions-types : (
+    "t": "top",
+    "r": "right",
+    "b": "bottom",
+    "l": "left"
+  );
+  @each $spacing-type-term, $spacing-type in $spacing-types {
+    @each $margin in $spacings-range {
+      @each $direction-term, $direction in $directions-types {
+        $init : "";
+        @if $breakpoint != $main-breakpoint {
+          $init : "#{$breakpoint}--";
+        }
+
+        .#{$init}#{$spacing-type-term}#{$direction-term}-#{$margin} { #{$spacing-type}-#{$direction}: $margin * 1px; }
+
+      }
+    }
+  }
+}
+
+@each $breakpoint in $grid-breakpoint-has-spacings {
+  @if $breakpoint == $main-breakpoint {
+    @include margins-generator($breakpoint);
+  } @else {
+    @include media-query($breakpoint) {
+      @include margins-generator($breakpoint);
+    }
+  }
+}
